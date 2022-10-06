@@ -30,7 +30,7 @@
           <div class="panel-body" style="display: flex;flex-direction: column;justify-content: space-evenly;">
             <div style="display: flex;margin: 5px 0; justify-content: space-between;align-items: center;">
               <div style>Enter Your Wallet Address <span style="color:grey; font-weight: bold;">Or</span> Connect Your Wallet</div>
-              <button class="btn btn-primary" style="margin: 5px 5px; float:right;" onclick="connectWallet()">CONNECT</button>
+              <button class="btn btn-primary" style="margin: 5px 5px; float:right;" id="conBtn" onclick="connectWallet()">CONNECT</button>
             </div>
             <div style="margin: 5px 0">
               <input type="text" class="form-control container-fluid" id="reqAddress" placeholder="Enter your ERC-20 compatible address (e.g.: 0x…)" aria-describedby="basic-addon1" value="">
@@ -71,9 +71,13 @@
       function toggleRequestButton(isLoading) {
         if(isLoading) {
           document.getElementById('reqBtn').disabled = true;
+          document.getElementById('conBtn').disabled = true;
+          document.getElementById('reqAddress').disabled = true;
         }
         else {
           document.getElementById('reqBtn').disabled = false;
+          document.getElementById('conBtn').disabled = false;
+          document.getElementById('reqAddress').disabled = false;
         }
       }
 
@@ -198,9 +202,11 @@
         let accountsOnEnable = await web3.eth.getAccounts();
         let address = accountsOnEnable[0];
         try {
+          JWT = '';
           address = address.toLowerCase();
           if(address) document.getElementById("reqAddress").value = address;
         } catch (e) {
+          JWT = '';
           document.getElementById("reqAddress").value = '';
         }
       }
